@@ -4,8 +4,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { useDrag } from "react-dnd";
 
 interface TaskCardProps {
+  id: string;
   title: string;
   type: string;
   priority?: "low" | "medium" | "high";
@@ -19,6 +21,7 @@ interface TaskCardProps {
 }
 
 export function TaskCard({
+  id,
   title,
   type,
   priority = "low",
@@ -27,8 +30,21 @@ export function TaskCard({
   commentCount,
   attachmentCount,
 }: TaskCardProps) {
+  const [{ isDragging }, drag] = useDrag({
+    type: "TASK",
+    item: { id },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
   return (
-    <Card>
+    <Card
+      ref={drag}
+      className={`${
+        isDragging ? "opacity-50" : "opacity-100"
+      } transition-opacity`}
+    >
       <CardHeader className="p-4">
         <div className="flex items-start justify-between gap-4">
           <Badge

@@ -3,22 +3,31 @@ import { ReactNode } from "react";
 
 import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
+import { useDrop } from "react-dnd";
 
 interface BoardColumnProps {
+  id: string;
   title: string;
   count?: number;
   variant?: "todo" | "progress" | "approved" | "reject";
   children: ReactNode;
+  onDrop: (taskId: string, targetColumnId: string) => void;
 }
 
 export function BoardColumn({
+  id,
   title,
   count,
   variant = "todo",
   children,
+  onDrop,
 }: BoardColumnProps) {
+  const [, drop] = useDrop({
+    accept: "TASK",
+    drop: (item: { id: string }) => onDrop(item.id, id),
+  });
   return (
-    <div className="flex h-full w-80 flex-col gap-4">
+    <div ref={drop} className="flex h-full w-80 flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div
