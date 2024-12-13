@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BoardColumn } from "../column";
 import { TaskCard } from "../task-card";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { fetchTasks } from "../../store/taskSlice";
 
 const initialTaskData = [
   {
@@ -116,27 +119,37 @@ const initialColumns = [
     title: "Reject",
     variant: "reject",
     count: 2,
-    tasks: initialTaskData.slice(8),
+    tasks: initialTaskData.slice(8, 9),
   },
 ];
 
 export default function DashboardPage() {
   const [columns, setColumns] = useState(initialColumns);
 
+  const dispatch = useDispatch();
+
+  const { tasks1, loading, error } = useSelector((state: RootState) => {
+    return state.task;
+  });
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   const handleDrop = (taskId, targetColumnId) => {
     setColumns((prevColumns) => {
-      // Find the source column
       const sourceColumn = prevColumns.find((column) =>
         column.tasks.some((task) => task.id === taskId)
       );
 
-      // Remove task from source column
       const task = sourceColumn.tasks.find((task) => task.id === taskId);
       sourceColumn.tasks = sourceColumn.tasks.filter(
         (task) => task.id !== taskId
       );
 
-      // Find the target column and add the task
       const targetColumn = prevColumns.find(
         (column) => column.id === targetColumnId
       );
@@ -161,7 +174,7 @@ export default function DashboardPage() {
               title={column.title}
               variant={column.variant}
               count={column.count}
-              //   tasks={column.tasks}
+              tasks={column.tasks}
               onDrop={handleDrop}
             >
               {column.tasks.map((task) => (
@@ -172,8 +185,9 @@ export default function DashboardPage() {
                   type={task.type}
                   priority={task.priority}
                   dueDate={task.dueDate}
-                  assignees={[{ name: "User 4" }]}
-                  commentCount={8}
+                  assignees={task.assignees || []}
+                  commentCount={task.commentCount || 0}
+                  attachmentCount={task.attachmentCount || 0}
                 />
               ))}
             </BoardColumn>
