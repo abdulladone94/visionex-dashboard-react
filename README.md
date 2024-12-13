@@ -1,50 +1,118 @@
-# React + TypeScript + Vite
+# Swimlane Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based application that implements a swimlane dashboard as per the provided design mockup. The application includes features such as task management, drag-and-drop functionality, data persistence, and dynamic search. Authentication is also incorporated to restrict access to the dashboard.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### UI Implementation
 
-## Expanding the ESLint configuration
+- Recreated the swimlane dashboard based on the provided Figma design (`Board App – Dashboard.fig`).
+- Pixel-perfect and responsive layout, compatible with screen sizes down to 768px.
+- Cross-browser compatibility ensured.
+- Styled using **TailwindCSS** and **shadCN** for a clean and modern appearance.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Swimlane Features
 
-- Configure the top-level `parserOptions` property like this:
+- Displays tasks in swimlanes based on their status.
+- Allows drag-and-drop functionality to move tasks between swimlanes.
+- Updates task status dynamically when moved.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### State Management
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Utilized **React Context API** for managing task data, ensuring efficient and scalable state management.
+- Tasks update their status in real-time when moved between swimlanes.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Prepopulate Data
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Mock API implemented using a JSON file to prepopulate task data on application load.
+
+### Data Persistence
+
+- Task updates persist across page reloads using **localStorage**.
+
+### Search Task
+
+- Dynamic search bar filters tasks as the user types, showing only tasks that match the search query.
+
+### Authentication
+
+- Added authentication functionality to restrict access to the dashboard.
+- Users must log in to view and manage tasks.
+
+### TypeScript Support
+
+- Entire application implemented using **TypeScript** for better type safety and developer experience.
+
+## Installation
+
+### Prerequisites
+
+- Node.js (>=16.0)
+- npm or yarn
+
+### Steps
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/abdulladone94/visionex-dashboard-react
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd swimlane-dashboard
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn run dev
+   ```
+
+5. Open your browser and navigate to `http://localhost:5173`.
+
+## Usage
+
+1. Login with the provided credentials or create a new account.
+2. View tasks in the swimlane dashboard, organized by their status.
+3. Drag and drop tasks between swimlanes to update their status.
+4. Use the search bar to filter tasks dynamically.
+
+## Authentication
+
+- Users are required to log in before accessing the dashboard.
+- Implemented using a custom authentication context and state.
+- Future integration with external authentication services (e.g., Firebase, Auth0) is possible.
+
+## Dependencies
+
+- React (>=18.0)
+- TailwindCSS
+- React Redux
+- react-dnd
+- TypeScript
+
+## Future Improvements
+
+- Add user roles and permissions.
+- Integrate with a backend API for real-time updates.
+- Enhance drag-and-drop experience using libraries like `react-beautiful-dnd`.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+---
+
+Happy Coding!
